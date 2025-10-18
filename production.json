@@ -1,0 +1,38 @@
+{
+    "2023-24": {
+        "Kharif": {
+            "Crop": "Sugarcane",
+            "Production": 4531.58
+        },
+        "Rabi": {
+            "Crop": "Total Food Grains",
+            "Production": 1600.06
+        },
+        "Summer": {
+            "Crop": "Total Food Grains",
+            "Production": 165.24
+        },
+        "Total": {
+            "Crop": "Sugarcane",
+            "Production": 4531.58
+        }
+    },
+    "2024-25": {
+        "Kharif": {
+            "Crop": "Sugarcane",
+            "Production": 4501.16
+        },
+        "Rabi": {
+            "Crop": "Total Food Grains",
+            "Production": 1672.16
+        },
+        "Summer": {
+            "Crop": "Total Food Grains",
+            "Production": 186.77
+        },
+        "Total": {
+            "Crop": "Sugarcane",
+            "Production": 4501.16
+        }
+    }
+}
