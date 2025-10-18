@@ -576,3 +576,81 @@ document.querySelectorAll('.feature-card, .news-card, .resource-card, .profit-ca
 console.log('Agri-advisory agent initialized successfully!');
 console.log('Current date:', new Date().toLocaleDateString());
 console.log('All features loaded and ready to use.');
+let priceChart;
+let productionData = {};
+
+// Load JSON
+fetch('production.json') // replace with your JSON file name
+  .then(res => res.json())
+  .then(data => {
+      productionData = data;
+      renderProductionChart(document.getElementById('year-select-price').value);
+  })
+  .catch(err => console.error("Error loading production JSON:", err));
+
+// Update chart when year changes
+document.getElementById('year-select-price').addEventListener('change', (e) => {
+    renderProductionChart(e.target.value);
+});
+
+function renderProductionChart(year) {
+    const ctx = document.getElementById('priceChart').getContext('2d');
+    const dataForYear = productionData[year];
+
+    const labels = Object.keys(dataForYear); // Kharif, Rabi, Summer, Total
+    const values = labels.map(season => dataForYear[season].Production);
+    const topCrops = labels.map(season => dataForYear[season].Crop);
+    const colors = ['#36A2EB', '#FF6384', '#FFCE56', '#4BC0C0']; // colors per season
+
+    const datasets = [{
+        label: 'Production (in MT or Quintals)',
+        data: values,
+        backgroundColor: colors
+    }];
+
+    if (priceChart) priceChart.destroy(); // destroy previous chart
+
+    priceChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                datalabels: {
+                    anchor: 'end',
+                    align: 'start',
+                    formatter: (value, context) => topCrops[context.dataIndex],
+                    font: { weight: 'bold', size: 14 },
+                    color: '#000'
+                }
+            },
+            scales: {
+                y: { beginAtZero: true, title: { display: true, text: 'Production' } }
+            }
+        },
+        plugins: [ChartDataLabels]
+    });
+
+    // Dynamic legend
+    const legendDiv = document.getElementById('price-legend');
+    legendDiv.innerHTML = '';
+    labels.forEach((season, idx) => {
+        const item = document.createElement('div');
+        item.className = 'legend-item';
+        item.innerHTML = `<span class="legend-color" style="background-color:${colors[idx]}"></span> ${season} (${topCrops[idx]})`;
+        legendDiv.appendChild(item);
+    });
+
+    // Summary below chart
+    const summaryDiv = document.getElementById('chart-summary');
+    let summaryText = `In ${year}, the top crops per season were: `;
+    labels.forEach((season, i) => {
+        summaryText += `${season} - ${topCrops[i]} (${values[i]} quintals). `;
+    });
+    summaryText += "This gives a clear picture of the seasonal crop production trends.";
+    summaryDiv.innerText = summaryText;
+}
