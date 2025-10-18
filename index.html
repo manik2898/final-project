@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="main.js"></script>
+    </body>
+    </html>
+
     <title>Agri-advisory agent by Quadsquad</title>
 </head>
 <body>
@@ -530,28 +536,24 @@
             <!-- Market Prices Section -->
             <div class="content-section active" id="market-prices">
                 <h2>📊 Market Price Trends</h2>
-                
-                <!-- General Price Graph -->
-                <div class="price-graph-card">
-                    <h3>Weekly Vegetable Price Trends - Warangal Mandi</h3>
-                    <div class="graph-placeholder">
-                        <canvas id="priceChart"></canvas>
-                        <div class="graph-legend">
-                            <div class="legend-item">
-                                <span class="legend-color tomato"></span> Tomato
-                            </div>
-                            <div class="legend-item">
-                                <span class="legend-color potato"></span> Potato
-                            </div>
-                            <div class="legend-item">
-                                <span class="legend-color onion"></span> Onion
-                            </div>
-                            <div class="legend-item">
-                                <span class="legend-color cabbage"></span> Cabbage
-                            </div>
+                    <!-- Seasonal Crop Production Graph -->
+                        <div class="price-graph-card">
+                            <h3>Seasonal Crop Production</h3>
+                            
+                            <select id="year-select-price">
+                                <option value="2023-24">2023-24</option>
+                                <option value="2024-25">2024-25</option>
+                            </select>
+
+                            <canvas id="priceChart" width="800" height="400"></canvas>
+
+                            <!-- Dynamic legend -->
+                            <div id="price-legend" class="graph-legend"></div>
+
+                            <!-- Summary below chart -->
+                            <div id="chart-summary" class="chart-summary" style="margin-top:15px; font-size:14px;"></div>
                         </div>
-                    </div>
-                </div>
+
 
                 <!-- Monthly Profit Analysis -->
                 <div class="monthly-profit-section">
